@@ -10,7 +10,7 @@ export default function History() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/games");
+        const res = await axios.get("https://stonepaperscissor-e7yq.onrender.com/api/games");
         setGames(res.data);
       } catch (err) {
         console.error("Failed to fetch games", err);
@@ -135,3 +135,4 @@ export default function History() {
     </div>
   );
 }
+
