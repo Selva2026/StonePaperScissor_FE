@@ -67,7 +67,7 @@ export default function Game() {
       : "System";
 
   const saveGame = async () => {
-    await axios.post("http://localhost:5001/api/games", {
+    await axios.post("https://stonepaperscissor-e7yq.onrender.com/api/games", {
       player1: player,
       player2: "System",
       rounds,
@@ -161,3 +161,4 @@ export default function Game() {
     </div>
   );
 }
+
