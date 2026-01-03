@@ -34,22 +34,13 @@ export default function Game() {
 
     setRounds((prev) => [
       ...prev,
-      {
-        round,
-        playerMove,
-        systemMove,
-        winner,
-      },
+      { round, playerMove, systemMove, winner },
     ]);
 
-    if (round === 6) {
-      setGameOver(true);
-    }
-
+    if (round === 6) setGameOver(true);
     setRound(round + 1);
   };
 
-  // 🔥 Final score calculation (for UI + save)
   const finalScore = rounds.reduce(
     (a, r) => {
       if (r.winner === player) a.player++;
@@ -67,30 +58,29 @@ export default function Game() {
       : "System";
 
   const saveGame = async () => {
-    await axios.post("https://stonepaperscissor-e7yq.onrender.com/api/games", {
+    await axios.post("http://localhost:5001/api/games", {
       player1: player,
       player2: "System",
       rounds,
       winner: finalWinner,
     });
-
     navigate("/history");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-900 to-black text-white p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-900 to-black text-white px-4 py-6">
+      <div className="max-w-6xl mx-auto">
 
         {/* Title */}
-        <h1 className="text-5xl font-extrabold text-center mb-8">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-6">
           🪨 Stone Paper Scissors
         </h1>
 
         {/* Player Name */}
         {round === 1 && (
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-6">
             <input
-              className="w-80 p-3 mb-8 text-center border-2 border-pink-500 rounded bg-slate-800"
+              className="w-full max-w-xs sm:max-w-sm md:max-w-md p-3 text-center border-2 border-pink-500 rounded bg-slate-800"
               placeholder="Enter Player Name"
               value={player}
               onChange={(e) => setPlayer(e.target.value)}
@@ -99,18 +89,18 @@ export default function Game() {
         )}
 
         {/* Round Indicator */}
-        <p className="text-center text-xl font-semibold mb-6">
+        <p className="text-center text-lg sm:text-xl font-semibold mb-4">
           Round {round <= 6 ? round : 6} / 6
         </p>
 
         {/* Player Controls */}
         {!gameOver && (
-          <div className="flex justify-center gap-6 mb-10">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8">
             {moves.map((m) => (
               <button
                 key={m}
                 onClick={() => playRound(m)}
-                className="px-6 py-3 bg-indigo-600 rounded-xl text-lg font-bold hover:bg-indigo-700 transition"
+                className="w-full sm:w-auto px-6 py-3 bg-indigo-600 rounded-xl text-base sm:text-lg font-bold hover:bg-indigo-700 transition"
               >
                 {m}
               </button>
@@ -119,15 +109,15 @@ export default function Game() {
         )}
 
         {/* Rounds Result Cards */}
-        <div className="flex gap-6 pb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:text-center sm:text-center lg:grid-cols-3 gap-4">
           {rounds.map((r) => (
             <div
               key={r.round}
-              className="min-w-[160px] bg-white text-gray-800 rounded-xl p-4 shadow-xl animate-slideUp "
+              className="bg-white text-gray-800 text-center rounded-xl p-4 shadow-xl"
             >
               <h3 className="font-bold mb-2">Round {r.round}</h3>
-              <p>{player}: {r.playerMove}</p>
-              <p>System: {r.systemMove}</p>
+              <p className="text-sm sm:text-base">{player}: {r.playerMove}</p>
+              <p className="text-sm sm:text-base">System: {r.systemMove}</p>
               <p className="mt-2 font-semibold text-indigo-600">
                 Winner: {r.winner}
               </p>
@@ -139,18 +129,15 @@ export default function Game() {
         {gameOver && (
           <div className="text-center mt-10 space-y-4">
 
-            {/* Final Winner */}
-            <div className="text-2xl font-extrabold text-yellow-400 animate-pulse">
+            <div className="text-xl sm:text-2xl font-extrabold text-yellow-400 animate-pulse">
               {finalWinner === "Tie"
                 ? "🤝 Match Tied!"
                 : `🏆 Winner is ${finalWinner}`}
             </div>
 
-            {/* Save Button */}
             <button
-              type="button"
               onClick={saveGame}
-              className="px-8 py-3 bg-green-500 rounded-xl text-black text-lg font-bold hover:bg-green-600 transition"
+              className="w-full sm:w-auto px-8 py-3 bg-green-500 rounded-xl text-black text-base sm:text-lg font-bold hover:bg-green-600 transition"
             >
               Save & View History
             </button>
@@ -161,4 +148,3 @@ export default function Game() {
     </div>
   );
 }
-
