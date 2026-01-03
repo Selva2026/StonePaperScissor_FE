@@ -109,7 +109,7 @@ export default function Game() {
         )}
 
         {/* Rounds Result Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:text-center sm:text-center lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:text-center sm:text-center lg:grid-cols-6 gap-4">
           {rounds.map((r) => (
             <div
               key={r.round}
